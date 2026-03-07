@@ -1,0 +1,205 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "theme": {
+    "accent": {
+      "dark": "#bf88bc",
+      "light": "#e7ecf4"
+    },
+    "background": {
+      "dark": "#2e3440",
+      "light": "#abb1bb"
+    },
+    "backgroundElement": {
+      "dark": "#39404f",
+      "light": "#7e8188"
+    },
+    "backgroundPanel": {
+      "dark": "#39404f",
+      "light": "#cdcecf"
+    },
+    "border": {
+      "dark": "#444c5e",
+      "light": "#465780"
+    },
+    "borderActive": {
+      "dark": "#465780",
+      "light": "#444c5e"
+    },
+    "borderSubtle": {
+      "dark": "#444c5e",
+      "light": "#465780"
+    },
+    "diffAdded": {
+      "dark": "#a3be8c",
+      "light": "#a3be8c"
+    },
+    "diffAddedBg": {
+      "dark": "#39404f",
+      "light": "#cdcecf"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#39404f",
+      "light": "#cdcecf"
+    },
+    "diffContext": {
+      "dark": "#465780",
+      "light": "#465780"
+    },
+    "diffContextBg": {
+      "dark": "#39404f",
+      "light": "#cdcecf"
+    },
+    "diffHighlightAdded": {
+      "dark": "#a3be8c",
+      "light": "#a3be8c"
+    },
+    "diffHighlightRemoved": {
+      "dark": "#bf616a",
+      "light": "#bf616a"
+    },
+    "diffHunkHeader": {
+      "dark": "#465780",
+      "light": "#465780"
+    },
+    "diffLineNumber": {
+      "dark": "#465780",
+      "light": "#7e8188"
+    },
+    "diffRemoved": {
+      "dark": "#bf616a",
+      "light": "#bf616a"
+    },
+    "diffRemovedBg": {
+      "dark": "#39404f",
+      "light": "#cdcecf"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#39404f",
+      "light": "#cdcecf"
+    },
+    "error": {
+      "dark": "#bf616a",
+      "light": "#bf616a"
+    },
+    "info": {
+      "dark": "#88c0d0",
+      "light": "#bf88bc"
+    },
+    "markdownBlockQuote": {
+      "dark": "#465780",
+      "light": "#39404f"
+    },
+    "markdownCode": {
+      "dark": "#a3be8c",
+      "light": "#a3be8c"
+    },
+    "markdownCodeBlock": {
+      "dark": "#39404f",
+      "light": "#2e3440"
+    },
+    "markdownEmph": {
+      "dark": "#ebcb8b",
+      "light": "#c9826b"
+    },
+    "markdownHeading": {
+      "dark": "#b48ead",
+      "light": "#bf88bc"
+    },
+    "markdownHorizontalRule": {
+      "dark": "#7e8188",
+      "light": "#465780"
+    },
+    "markdownImage": {
+      "dark": "#81a1c1",
+      "light": "#81a1c1"
+    },
+    "markdownImageText": {
+      "dark": "#88c0d0",
+      "light": "#e7ecf4"
+    },
+    "markdownLink": {
+      "dark": "#81a1c1",
+      "light": "#81a1c1"
+    },
+    "markdownLinkText": {
+      "dark": "#88c0d0",
+      "light": "#e7ecf4"
+    },
+    "markdownListEnumeration": {
+      "dark": "#88c0d0",
+      "light": "#e7ecf4"
+    },
+    "markdownListItem": {
+      "dark": "#81a1c1",
+      "light": "#bf88bc"
+    },
+    "markdownStrong": {
+      "dark": "#c9826b",
+      "light": "#ebcb8b"
+    },
+    "markdownText": {
+      "dark": "#cdcecf",
+      "light": "#2e3440"
+    },
+    "primary": {
+      "dark": "#81a1c1",
+      "light": "#bf88bc"
+    },
+    "secondary": {
+      "dark": "#b48ead",
+      "light": "#81a1c1"
+    },
+    "success": {
+      "dark": "#a3be8c",
+      "light": "#a3be8c"
+    },
+    "syntaxComment": {
+      "dark": "#7e8188",
+      "light": "#465780"
+    },
+    "syntaxFunction": {
+      "dark": "#81a1c1",
+      "light": "#88c0d0"
+    },
+    "syntaxKeyword": {
+      "dark": "#b48ead",
+      "light": "#81a1c1"
+    },
+    "syntaxNumber": {
+      "dark": "#c9826b",
+      "light": "#b48ead"
+    },
+    "syntaxOperator": {
+      "dark": "#88c0d0",
+      "light": "#81a1c1"
+    },
+    "syntaxPunctuation": {
+      "dark": "#cdcecf",
+      "light": "#2e3440"
+    },
+    "syntaxString": {
+      "dark": "#a3be8c",
+      "light": "#a3be8c"
+    },
+    "syntaxType": {
+      "dark": "#ebcb8b",
+      "light": "#e7ecf4"
+    },
+    "syntaxVariable": {
+      "dark": "#e7ecf4",
+      "light": "#e7ecf4"
+    },
+    "text": {
+      "dark": "#cdcecf",
+      "light": "#2e3440"
+    },
+    "textMuted": {
+      "dark": "#7e8188",
+      "light": "#39404f"
+    },
+    "warning": {
+      "dark": "#ebcb8b",
+      "light": "#ebcb8b"
+    }
+  }
+}
