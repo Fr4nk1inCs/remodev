@@ -15,12 +15,6 @@ cleanup() {
 
 trap cleanup EXIT ERR INT TERM
 
-# Patch global zshrc to load our additional zshrc in our tmux sessions
-patch_zshrc() {
-  printf "Appending:\n  "
-  echo '[[ -n "$TMUX_EXTRA_ZSHRC" && -f "$TMUX_EXTRA_ZSHRC" ]] && source "$TMUX_EXTRA_ZSHRC"' | tee -a "$HOME/.zshrc" > /dev/null
-}
-
 _last_version=""
 fetch_latest_release() {
   local repo="$1"
@@ -134,7 +128,6 @@ ask_and_maybe_run() {
 }
 
 main() {
-  ask_and_maybe_run patch_zshrc
   ask_and_maybe_run install_fzf
   ask_and_maybe_run install_starship
   ask_and_maybe_run install_eza
