@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 set -e
+set -o pipefail
+
+BASE_DIR="$(dirname "$(realpath "$0")")"
+REMODEV_BASE="$(dirname "$BASE_DIR")"
+
+export HOME="$REMODEV_BASE"
 
 tmp_workspace="$(mktemp -d)"
 echo "Created temporary workspace at $tmp_workspace"
@@ -15,23 +21,18 @@ cleanup() {
 
 trap cleanup EXIT ERR INT TERM
 
-_last_version=""
-fetch_latest_release() {
-  local repo="$1"
-  local version="$(curl -sL "https://api.github.com/repos/$repo/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
-  echo "  The latest release of $repo is: $version"
-  _last_version="$version"
-}
-
 _last_installed=""
 install_latest_from_github() {
   local repo="$1"
   local filefmt="$2"
 
-  fetch_latest_release "$repo"
-  local version="$_last_version"
+  local version="$(gh release view --repo "$repo" --json tagName -q .tagName)"
+  echo "  The latest release of $repo is: $version"
+
   local prefix="https://github.com/$repo/releases/download/$version"
+
   version="${version#v}" # remove prefix "v" if exists
+
   local filename="$(sed -E "s/%v/$version/g" <<< "$filefmt")"
   local url="$prefix/$filename"
 
@@ -66,7 +67,6 @@ install_neovim() {
   echo "Installing nightly neovim..."
 
   add-apt-repository ppa:neovim-ppa/unstable -y && \
-  apt-get update -y && \
   apt-get install neovim -y
 }
 
@@ -84,16 +84,12 @@ install_starship() {
 
 install_eza() {
   echo "Installing eza..."
-  apt-get update
-  apt-get install -y gpg
-  mkdir -p /etc/apt/keyrings
   wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | \
     gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
   echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | \
     tee /etc/apt/sources.list.d/gierens.list
   chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-  apt-get update
-  apt-get install -y eza
+  apt-get update -y && apt-get install -y eza
 }
 
 install_zoxide() {
@@ -127,7 +123,37 @@ ask_and_maybe_run() {
   fi
 }
 
+install_common() {
+  echo "Installing common dependencies..."
+  apt-get install -y curl wget tar ca-certificates gpg
+  mkdir -p /etc/apt/keyrings
+  mkdir -p /etc/apt/sources.list.d
+}
+
+install_gh() {
+  echo "Installing GitHub CLI..."
+  local out="$tmp_workspace/githubcli-archive-keyring.gpg"
+  local keyring="/etc/apt/keyrings/githubcli-archive-keyring.gpg"
+  wget -nv -O"$out" https://cli.github.com/packages/githubcli-archive-keyring.gpg
+  cat "$out" | tee "$keyring" > /dev/null
+  chmod go+r "$keyring"
+  local arch="$(dpkg --print-architecture)"
+  local signed_by="arch=$arch signed-by=$keyring"
+  echo "deb [$signed_by] https://cli.github.com/packages stable main" \
+    | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+  apt-get update -y && apt-get install gh -y
+
+  echo "Authenticating GitHub CLI..."
+  gh auth login
+}
+
+install_dependencies() {
+  install_common
+  install_gh
+}
+
 main() {
+  ask_and_maybe_run install_dependencies
   ask_and_maybe_run install_fzf
   ask_and_maybe_run install_starship
   ask_and_maybe_run install_eza
