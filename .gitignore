@@ -3,4 +3,5 @@
 .zim/
 .zsh_history
 .zshrc.local
+.zcompdump*
 .gitconfig
