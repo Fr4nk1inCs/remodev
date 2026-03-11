@@ -1,3 +1,5 @@
 .local/
 .cache/
+.zim/
 .zsh_history
+.zshrc.local

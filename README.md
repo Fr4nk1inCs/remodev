@@ -32,14 +32,9 @@ You should install other tools by yourself, such as `tmux`, `opencode`,
 
 ## Usage
 
-In the installation script, we only append `~/.zshrc` with one line:
-```zsh
-[[ -n "$TMUX_EXTRA_ZSHRC" && -f "$TMUX_EXTRA_ZSHRC" ]] && source "$TMUX_EXTRA_ZSHRC"
-```
-
-And in `scripts/start-tmux-keepalive.sh`, we launch a keep-alive tmux session
-using a special socket `fr4nk1in.sock` and set `TMUX_EXTRA_ZSHRC` to this repo's
-`.zshrc`. Such that all sessions attached to this tmux server/socket would
+In `scripts/start-tmux-keepalive.sh`, we launch a keep-alive tmux session
+using a special socket `fr4nk1in.sock` and set `ZDOTDIR` to this repo's
+root. Such that all sessions attached to this tmux server/socket would
 source this `.zshrc` and get the same environment.
 
 First run `scripts/start-tmux-keepalive.sh` to start the tmux server.

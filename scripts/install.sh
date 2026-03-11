@@ -9,6 +9,8 @@ cd "$tmp_workspace" || exit 1
 cleanup() {
   echo "Cleaning up temporary workspace at $tmp_workspace"
   rm -rf "$tmp_workspace"
+
+  exit 1
 }
 
 trap cleanup EXIT ERR INT TERM
@@ -80,12 +82,67 @@ install_copilot_lsp() {
   npm install -g @github/copilot-language-server
 }
 
+install_starship() {
+  echo "Installing starship..."
+  # installs to /usr/local/bin by default
+  curl -sS https://starship.rs/install.sh | sh
+}
+
+install_eza() {
+  echo "Installing eza..."
+  apt-get update
+  apt-get install -y gpg
+  mkdir -p /etc/apt/keyrings
+  wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | \
+    gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | \
+    tee /etc/apt/sources.list.d/gierens.list
+  chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+  apt-get update
+  apt-get install -y eza
+}
+
+install_zoxide() {
+  echo "Installing zoxide..."
+  local url="https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh"
+  local script="$tmp_workspace/install_zoxide.sh"
+  curl -sL "$url" -o "$script"
+  sh "$script" --bin-dir /usr/local/bin --man-dir /usr/local/share/zoxide
+}
+
+install_direnv() {
+  echo "Installing direnv..."
+  apt-get install -y direnv
+}
+
+ask_and_maybe_run() {
+  local cmd="$1"
+  local answer="p"
+  local yellow=""
+  local reset="\\033[0m"
+
+  while [[ ! "$answer" =~ ^[YyNn]?$ ]]; do
+    read -p "Do you want to run \`$cmd\`? (y/n)" -n 1 answer
+  done
+
+  echo
+  if [[ "$answer" =~ ^[Yy]?$ ]]; then
+    eval "$cmd"
+  else
+    echo "Skipped running: $cmd"
+  fi
+}
+
 main() {
-  patch_zshrc
-  install_fzf
-  install_lua_ls
-  install_neovim
-  install_copilot_lsp
+  ask_and_maybe_run patch_zshrc
+  ask_and_maybe_run install_fzf
+  ask_and_maybe_run install_starship
+  ask_and_maybe_run install_eza
+  ask_and_maybe_run install_zoxide
+  ask_and_maybe_run install_direnv
+  ask_and_maybe_run install_lua_ls
+  ask_and_maybe_run install_copilot_lsp
+  ask_and_maybe_run install_neovim
 
   echo "Installation complete!"
 

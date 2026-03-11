@@ -1,13 +1,7 @@
-NEW_HOME=$(realpath $(dirname $0))
+# new home directory
+export HOME="$ZDOTDIR"
 
-export XDG_CONFIG_HOME="$NEW_HOME/.config"
-export XDG_CACHE_HOME="$NEW_HOME/.cache"
-export XDG_DATA_HOME="$NEW_HOME/.local/share"
-export XDG_STATE_HOME="$NEW_HOME/.local/state"
-
-export EDITOR="nvim"
-
-# zsh vi-mode
+# vi-mode
 bindkey -v
 autoload edit-command-line
 zle -N edit-command-line
@@ -17,7 +11,7 @@ bindkey -M vicmd v edit-command-line
 HISTSIZE="50000"
 SAVEHIST="10000"
 
-HISTFILE="$NEW_HOME/.zsh_history"
+HISTFILE="$HOME/.zsh_history"
 mkdir -p "$(dirname "$HISTFILE")"
 
 unsetopt APPEND_HISTORY
@@ -32,14 +26,72 @@ setopt EXTENDED_HISTORY
 
 setopt interactivecomments
 
+# zim
+ZIM_HOME="$HOME/.zim"
+
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  if (( ${+commands[curl]} )); then
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  else
+    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  fi
+fi
+
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+
+source ${ZIM_HOME}/init.zsh
+
+zmodload -F zsh/terminfo +p:terminfo
+
+for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
+for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
+for key ('k') bindkey -M vicmd ${key} history-substring-search-up
+for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+unset key
+
 export COLORTERM="truecolor"
 
+# eza alias
+alias -- eza='eza --icons auto --git'
+alias -- l='eza -alh'
+alias -- la='eza -a'
+alias -- ll='eza -l'
+alias -- lla='eza -la'
+alias -- ls=eza
+alias -- lt='eza --tree'
+alias -- tree='eza -T'
+
+# nvim alias
+export EDITOR="nvim"
+alias -- vim="nvim"
+alias -- vi="nvim"
+alias -- v="nvim"
+alias -- vimdiff="nvim -d"
+
+# starship
+eval "$(starship init zsh)"
+
+# zoxide
+eval "$(zoxide init zsh)"
+alias -- cd="z"
+
 # fzf
-if command -v fzf >/dev/null; then
-  source <(fzf --zsh)
-fi
+source <(fzf --zsh)
+
+# direnv
+eval "$(direnv hook zsh)"
 
 # gh
-if command -v gh >/dev/null; then
-  eval "$(gh completion --shell zsh)"
+eval "$(gh completion --shell zsh)"
+
+# opencode
+export PATH="$HOME/.opencode/bin:$PATH"
+
+if [[ -f "$HOME/.zshrc.local" ]]; then
+  source "$HOME/.zshrc.local"
 fi
+
