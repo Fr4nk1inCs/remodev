@@ -8,3 +8,7 @@
 !/mise/**
 !/ccstatusline/
 !/ccstatusline/**
+!/uv/
+!/uv/uv.toml
+!/pip/
+!/pip/pip.conf

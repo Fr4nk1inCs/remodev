@@ -16,3 +16,5 @@
 
 !/.gitignore
 !/.gitmodules
+
+!/.condarc
