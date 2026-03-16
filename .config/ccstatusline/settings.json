@@ -1,0 +1,84 @@
+{
+  "colorLevel": 1,
+  "compactThreshold": 60,
+  "defaultPadding": " ",
+  "flexMode": "full-minus-40",
+  "globalBold": false,
+  "inheritSeparatorColors": false,
+  "lines": [
+    [
+      {
+        "color": "white",
+        "id": "1",
+        "metadata": {
+          "format": "word"
+        },
+        "type": "vim-mode"
+      },
+      {
+        "color": "blue",
+        "id": "2",
+        "metadata": {
+          "abbreviateHome": "true",
+          "segments": "3"
+        },
+        "rawValue": true,
+        "type": "current-working-dir"
+      },
+      {
+        "color": "magenta",
+        "id": "3",
+        "metadata": {
+          "hideNoGit": "true"
+        },
+        "type": "git-branch"
+      },
+      {
+        "color": "yellow",
+        "id": "4",
+        "metadata": {
+          "hideNoGit": "true"
+        },
+        "type": "git-changes"
+      }
+    ],
+    [
+      {
+        "color": "green",
+        "id": "5",
+        "rawValue": true,
+        "type": "model"
+      },
+      {
+        "color": "green",
+        "id": "6",
+        "metadata": {
+          "display": "progress-short"
+        },
+        "rawValue": true,
+        "type": "context-bar"
+      },
+      {
+        "id": "7",
+        "metadata": {
+          "display": "time"
+        },
+        "type": "session-usage"
+      },
+      {
+        "id": "8",
+        "type": "reset-timer"
+      }
+    ]
+  ],
+  "powerline": {
+    "autoAlign": false,
+    "enabled": false,
+    "endCaps": [],
+    "separatorInvertBackground": [false],
+    "separators": [""],
+    "startCaps": [],
+    "theme": "nord-aurora"
+  },
+  "version": 3
+}

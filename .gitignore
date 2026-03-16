@@ -4,6 +4,7 @@
 !/scripts/**
 !/.config/
 !/.config/**
+!/.claude/
 !/.claude/settings.json
 
 !/.zshrc
