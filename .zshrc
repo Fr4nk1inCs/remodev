@@ -72,6 +72,9 @@ alias -- vi="nvim"
 alias -- v="nvim"
 alias -- vimdiff="nvim -d"
 
+# mise
+eval "$("$HOME/.local/bin/mise" activate zsh)"
+
 # starship
 eval "$(starship init zsh)"
 
@@ -88,10 +91,6 @@ eval "$(direnv hook zsh)"
 # gh
 eval "$(gh completion --shell zsh)"
 
-# opencode
-export PATH="$HOME/.opencode/bin:$PATH"
-
 if [[ -f "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi
-

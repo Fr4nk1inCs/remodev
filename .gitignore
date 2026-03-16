@@ -1,11 +1,14 @@
 *
 
 !/scripts/
+!/scripts/**
+!/.config/
+!/.config/**
+!/.claude/settings.json
 
 !/.zshrc
 !/.zshenv
 !/.zimrc
-!/.config
 !/.tmux.conf
 
 !/README.md

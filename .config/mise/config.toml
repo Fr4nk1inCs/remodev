@@ -1,0 +1,18 @@
+[tools]
+fzf = "latest"
+gh = "latest"
+neovim = "nightly"
+lua-language-server = "latest"
+starship = "latest"
+direnv = "latest"
+zoxide = "latest"
+"aqua:github/copilot-language-server-release" = "latest"
+eza = "latest"
+uv = "latest"
+lazygit = "latest"
+node = "latest"
+rust = "latest"
+opencode = "latest"
+claude-code = "latest"
+
+[settings]
