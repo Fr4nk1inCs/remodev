@@ -14,5 +14,6 @@ node = "latest"
 rust = "latest"
 opencode = "latest"
 claude-code = "latest"
+bat = "latest"
 
 [settings]
