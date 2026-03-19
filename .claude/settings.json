@@ -5,22 +5,7 @@
     "command": "npx -y ccstatusline@latest",
     "padding": 0
   },
-  "extraKnownMarketplaces": {
-    "plannotator": {
-      "source": {
-        "source": "github",
-        "repo": "backnotprop/plannotator"
-      }
-    },
-    "superpowers-marketplace": {
-      "source": {
-        "source": "github",
-        "repo": "obra/superpowers-marketplace"
-      }
-    }
-  },
   "plugins": {
-    "plannotator@plannotator": true,
-    "superpowers@superpowers-marketplace": true
+    "superpowers@claude-plugins-official": true
   }
 }
