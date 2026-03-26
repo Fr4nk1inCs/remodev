@@ -5,7 +5,7 @@
     "command": "npx -y ccstatusline@latest",
     "padding": 0
   },
-  "plugins": {
+  "enabledPlugins": {
     "superpowers@claude-plugins-official": true
   }
 }
