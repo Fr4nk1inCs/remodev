@@ -15,5 +15,6 @@ rust = "latest"
 opencode = "latest"
 claude-code = "latest"
 bat = "latest"
+btop = "latest"
 
 [settings]
