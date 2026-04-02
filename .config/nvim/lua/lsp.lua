@@ -1,4 +1,12 @@
-vim.lsp.enable({ "pyrefly", "ruff", "lua_ls", "copilot", "clangd" })
+vim.lsp.enable({
+  "pyrefly",
+  "ruff",
+  "lua_ls",
+  "copilot",
+  "clangd",
+  "yamlls",
+  "jsonls",
+})
 
 local fzf_goto = function(command)
   return function()
