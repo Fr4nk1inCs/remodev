@@ -18,5 +18,10 @@ bat = "latest"
 btop = "latest"
 yazi = "latest"
 ripgrep = "latest"
+"npm:yaml-language-server" = "latest"
+"npm:vscode-json-languageserver" = "latest"
+"pipx:pyrefly" = "latest"
+"pipx:ruff" = "latest"
+"cargo:tree-sitter-cli" = "latest"
 
 [settings]
