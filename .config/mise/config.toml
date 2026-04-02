@@ -16,5 +16,7 @@ opencode = "latest"
 claude-code = "latest"
 bat = "latest"
 btop = "latest"
+yazi = "latest"
+ripgrep = "latest"
 
 [settings]
