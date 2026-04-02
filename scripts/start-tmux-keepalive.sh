@@ -6,8 +6,15 @@ REMODEV_BASE="$(dirname "$BASE")"
 TMUX_CONF="$REMODEV_BASE/.tmux.conf"
 SOCK_NAME="fr4nk1in.sock"
 
-# how should I make all tmux session source the additional zshrc?
-tmux -L "$SOCK_NAME" has-session -t "keep-alive" 2>/dev/null || \
-  tmux -L "$SOCK_NAME" -u -f "$TMUX_CONF" new-session -d -s "keep-alive"
+tmux() {
+  command tmux -L "$SOCK_NAME" "$@"
+}
 
-tmux -L "$SOCK_NAME" set-environment -g "ZDOTDIR" "$REMODEV_BASE"
+if ! tmux has-session -t "keep-alive" 2>/dev/null; then
+  echo "Starting tmux keep-alive session..."
+  ZDOTDIR="$REMODEV_BASE" \
+  HOME="$REMODEV_BASE" \
+    tmux -u -f "$TMUX_CONF" new-session -d -s "keep-alive"
+else
+  echo "Tmux keep-alive session already running."
+fi
