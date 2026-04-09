@@ -17,9 +17,3 @@ eval "$("$HOME/.local/bin/mise" activate bash)"
 
 echo "Installing packages..."
 mise upgrade
-
-echo "Installing tree-sitter-cli..."
-cargo install --locked tree-sitter-cli
-
-echo "Installing pyrefly and ruff..."
-uv tool install pyrefly ruff
