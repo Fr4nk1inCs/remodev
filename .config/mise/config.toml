@@ -23,5 +23,6 @@ ripgrep = "latest"
 "pipx:pyrefly" = "latest"
 "pipx:ruff" = "latest"
 "cargo:tree-sitter-cli" = "latest"
+"pipx:nvitop" = "latest"
 
 [settings]
