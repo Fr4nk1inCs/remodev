@@ -1,0 +1,14 @@
+{
+  "defaultModel": "gpt-5.5",
+  "defaultProvider": "ustc-mlsys-openai",
+  "defaultThinkingLevel": "high",
+  "packages": [
+    "npm:@juicesharp/rpiv-todo",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-btw",
+    "npm:@gotgenes/pi-subagents",
+    "git:github.com/code-yeongyu/pi-openai-web-search"
+  ],
+  "theme": "light",
+  "lastChangelogVersion": "0.80.3"
+}
