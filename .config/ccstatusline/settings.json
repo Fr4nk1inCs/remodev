@@ -1,84 +1,229 @@
 {
-  "colorLevel": 1,
-  "compactThreshold": 60,
-  "defaultPadding": " ",
-  "flexMode": "full-minus-40",
-  "globalBold": false,
-  "inheritSeparatorColors": false,
-  "lines": [
-    [
-      {
-        "color": "white",
-        "id": "1",
-        "metadata": {
-          "format": "word"
-        },
-        "type": "vim-mode"
-      },
-      {
-        "color": "blue",
-        "id": "2",
-        "metadata": {
-          "abbreviateHome": "true",
-          "segments": "3"
-        },
-        "rawValue": true,
-        "type": "current-working-dir"
-      },
-      {
-        "color": "magenta",
-        "id": "3",
-        "metadata": {
-          "hideNoGit": "true"
-        },
-        "type": "git-branch"
-      },
-      {
-        "color": "yellow",
-        "id": "4",
-        "metadata": {
-          "hideNoGit": "true"
-        },
-        "type": "git-changes"
-      }
-    ],
-    [
-      {
-        "color": "green",
-        "id": "5",
-        "rawValue": true,
-        "type": "model"
-      },
-      {
-        "color": "green",
-        "id": "6",
-        "metadata": {
-          "display": "progress-short"
-        },
-        "rawValue": true,
-        "type": "context-bar"
-      },
-      {
-        "id": "7",
-        "metadata": {
-          "display": "time"
-        },
-        "type": "session-usage"
-      },
-      {
-        "id": "8",
-        "type": "reset-timer"
-      }
-    ]
-  ],
-  "powerline": {
-    "autoAlign": false,
-    "enabled": false,
-    "endCaps": [],
-    "separatorInvertBackground": [false],
-    "separators": [""],
-    "startCaps": [],
-    "theme": "nord-aurora"
-  },
-  "version": 3
+	"colorLevel": 2,
+	"compactThreshold": 60,
+	"defaultPadding": "",
+	"flexMode": "full",
+	"gitCacheTtlSeconds": 5,
+	"globalBold": false,
+	"inheritSeparatorColors": false,
+	"lines": [
+		[
+			{
+				"color": "brightBlack",
+				"id": "line0-1",
+				"metadata": {
+					"format": "word",
+					"nerdFont": "true"
+				},
+				"type": "vim-mode"
+			},
+			{
+				"character": " · ",
+				"id": "line0-2",
+				"type": "separator"
+			},
+			{
+				"color": "cyan",
+				"id": "line0-3",
+				"rawValue": true,
+				"type": "model"
+			},
+			{
+				"color": "brightBlack",
+				"customText": " (",
+				"id": "line0-4",
+				"type": "custom-text"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-5",
+				"rawValue": true,
+				"type": "thinking-effort"
+			},
+			{
+				"color": "brightBlack",
+				"customText": ")",
+				"id": "line0-6",
+				"type": "custom-text"
+			},
+			{
+				"character": " · ",
+				"id": "line0-7",
+				"type": "separator"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-8",
+				"rawValue": true,
+				"type": "context-percentage"
+			},
+			{
+				"color": "brightBlack",
+				"customText": "/",
+				"id": "line0-9",
+				"type": "custom-text"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-10",
+				"rawValue": true,
+				"type": "context-window"
+			},
+			{
+				"color": "brightBlack",
+				"customText": " ↩",
+				"id": "line0-11",
+				"type": "custom-text"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-12",
+				"rawValue": true,
+				"type": "tokens-cached"
+			},
+			{
+				"color": "brightBlack",
+				"customText": " ↑",
+				"id": "line0-13",
+				"type": "custom-text"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-14",
+				"rawValue": true,
+				"type": "tokens-input"
+			},
+			{
+				"color": "brightBlack",
+				"customText": " ↓",
+				"id": "line0-15",
+				"type": "custom-text"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-16",
+				"rawValue": true,
+				"type": "tokens-output"
+			},
+			{
+				"color": "brightBlack",
+				"customText": " 󰿺",
+				"id": "line0-17",
+				"type": "custom-text"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-18",
+				"metadata": {
+					"format": "number",
+					"hideZero": "false"
+				},
+				"type": "compaction-counter"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-19",
+				"type": "flex-separator"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-20",
+				"metadata": {
+					"abbreviateHome": "true",
+					"segments": "3"
+				},
+				"rawValue": true,
+				"type": "current-working-dir"
+			},
+			{
+				"character": " · ",
+				"id": "line0-21",
+				"type": "separator"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-22",
+				"metadata": {
+					"hideNoGit": "false"
+				},
+				"rawValue": true,
+				"type": "git-branch"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line0-23",
+				"metadata": {
+					"hideNoGit": "true"
+				},
+				"rawValue": true,
+				"type": "git-changes"
+			}
+		],
+		[
+			{
+				"color": "cyan",
+				"id": "line1-1",
+				"metadata": {
+					"display": "slider"
+				},
+				"rawValue": true,
+				"type": "session-usage"
+			},
+			{
+				"color": "brightBlack",
+				"customText": " ",
+				"id": "line1-2",
+				"type": "custom-text"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line1-3",
+				"metadata": {
+					"compact": "true"
+				},
+				"rawValue": true,
+				"type": "reset-timer"
+			},
+			{
+				"character": " · ",
+				"id": "line1-4",
+				"type": "separator"
+			},
+			{
+				"color": "cyan",
+				"id": "line1-5",
+				"metadata": {
+					"display": "slider"
+				},
+				"rawValue": true,
+				"type": "weekly-usage"
+			},
+			{
+				"color": "brightBlack",
+				"customText": " ",
+				"id": "line1-6",
+				"type": "custom-text"
+			},
+			{
+				"color": "brightBlack",
+				"id": "line1-7",
+				"metadata": {
+					"compact": "true",
+					"hours": "true"
+				},
+				"rawValue": true,
+				"type": "weekly-reset-timer"
+			}
+		]
+	],
+	"minimalistMode": true,
+	"powerline": {
+		"autoAlign": false,
+		"enabled": false,
+		"endCaps": [],
+		"separatorInvertBackground": [false],
+		"separators": [""],
+		"startCaps": []
+	},
+	"version": 3
 }
