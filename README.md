@@ -1,7 +1,7 @@
 # Remodev
 
-A set of minimal configurations for develop on a remote server. This contains a
-simple configuration of `neovim`, `tmux` and `opencode`.
+A set of minimal configurations for develop on a remote server. This contains
+configurations of `zsh`, `neovim`, `pi` and other tools managed by `mise`.
 
 > [!Note]
 > This repo targets a shared server, where everyone logs in as the same root user.
@@ -21,25 +21,25 @@ simple configuration of `neovim`, `tmux` and `opencode`.
 
 We only support ubuntu for now, since it's widely adopted on gpu servers.
 
-Install dependencies and patch ~/.zshrc with:
+Install dependencies and tools with:
 ```console
 $ bash scripts/install.sh
 ```
 
-This would only install `neovim`, `fzf`, `lua-language-server` and `gh` (github cli).
-You should install other tools by yourself, such as `tmux`, `opencode`,
-`tree-sitter-cli` and so on.
+This installs `mise` and all the tools declared in `.config/mise/config.toml`,
+such as `neovim`, `fzf`, `eza`, `zoxide`, `starship`, `gh`, `pi` and so on.
+Add other tools to that file as needed and install them with `mise upgrade`.
 
 ## Usage
 
-In `scripts/start-tmux-keepalive.sh`, we launch a keep-alive tmux session
-using a special socket `fr4nk1in.sock` and set `ZDOTDIR` to this repo's
-root. Such that all sessions attached to this tmux server/socket would
-source this `.zshrc` and get the same environment.
-
-First run `scripts/start-tmux-keepalive.sh` to start the tmux server.
-
-After that, to start a new session, simply run:
+This repo acts as a self-contained `$HOME`. To use it, explicitly point
+`$HOME` at the repo's root and start a login shell:
 ```console
-$ tmux -L fr4nk1in.sock new -s <session-name>
+$ export HOME="/path/to/remodev" && cd && zsh -l
 ```
+The login shell then sources this repo's `.zshrc`, which sets up the XDG
+directories, tools and aliases.
+
+For machine-specific tweaks, create `.zshrc.local.pre` and/or
+`.zshrc.local.post` in the repo root — they are sourced before and after the
+main `.zshrc`, respectively.
