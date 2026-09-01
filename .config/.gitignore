@@ -2,6 +2,8 @@
 !/.gitignore
 !/nvim/
 !/nvim/**
+!/herdr/
+!/herdr/**
 !/mise/
 !/mise/**
 !/uv/
