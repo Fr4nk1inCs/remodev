@@ -1,14 +1,23 @@
 {
-  "defaultModel": "gpt-5.5",
-  "defaultProvider": "ustc-mlsys-openai",
+  "defaultModel": "k3-256k",
+  "defaultProjectTrust": "always",
+  "defaultProvider": "kimi-coding",
   "defaultThinkingLevel": "high",
+  "editorPaddingX": 0,
+  "markdown": {
+    "codeBlockIndent": ""
+  },
+  "outputPad": 0,
   "packages": [
-    "npm:@juicesharp/rpiv-todo",
-    "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:@juicesharp/rpiv-btw",
-    "npm:@gotgenes/pi-subagents",
-    "git:github.com/code-yeongyu/pi-openai-web-search"
+    "npm:@hk_net/pi-usage-bars",
+    "npm:@eko24ive/pi-ask",
+    "npm:@narumitw/pi-btw",
+    "npm:@tintinweb/pi-subagents",
+    "git:github.com/code-yeongyu/pi-openai-web-search",
+    "git:github.com/Fr4nk1inCs/pi-kimi-web-tools"
   ],
+  "sessionDir": "~/.local/state/pi/agent/sessions",
   "theme": "light",
-  "lastChangelogVersion": "0.80.3"
+  "tuiMode": "fullscreen",
+  "lastChangelogVersion": "0.84.4"
 }
