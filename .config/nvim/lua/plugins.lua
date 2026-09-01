@@ -49,7 +49,28 @@ require("lazy").setup({
     lazy = false,
     priority = 1000,
     config = function(_, _)
-      vim.cmd.colorscheme("base16-nord-light")
+      require("base16-colorscheme").with_config({
+        blink = false,
+      })
+
+      require("base16-colorscheme").setup({
+        base00 = "#e5e9f0",
+        base01 = "#c2d0e7",
+        base02 = "#b8c5db",
+        base03 = "#7b8aa3",
+        base04 = "#60728c",
+        base05 = "#2e3440",
+        base06 = "#3b4252",
+        base07 = "#29838d",
+        base08 = "#99324b",
+        base09 = "#ac4426",
+        base0A = "#9a7500",
+        base0B = "#4f894c",
+        base0C = "#398eac",
+        base0D = "#3b6ea8",
+        base0E = "#97365b",
+        base0F = "#5272af",
+      })
     end,
   },
   {
@@ -547,4 +568,38 @@ require("lazy").setup({
       end,
     },
   },
+  {
+    "stevearc/oil.nvim",
+    lazy = false,
+    dependencies = { "echasnovski/mini.icons" },
+    opts = {
+      keymaps = {
+        ["<C-h>"] = false,
+        ["<C-l>"] = false,
+        ["<C-->"] = { "actions.select", opts = { horizontal = true } },
+        ["<C-r>"] = "actions.refresh",
+        ["q"] = { "actions.close", mode = "n" },
+      },
+      float = {
+        padding = 5,
+        border = "rounded",
+      },
+    },
+    keys = {
+      {
+        "<leader>fo",
+        function()
+          require("oil").toggle_float()
+        end,
+        desc = "Toggle oil.nvim file explorer",
+      },
+      {
+        "<leader>o",
+        function()
+          require("oil").toggle_float()
+        end,
+        desc = "Open oil.nvim file explorer",
+      },
+    },
+  }
 })
