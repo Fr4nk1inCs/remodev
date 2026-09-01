@@ -2,12 +2,8 @@
 !/.gitignore
 !/nvim/
 !/nvim/**
-!/opencode/
-!/opencode/**
 !/mise/
 !/mise/**
-!/ccstatusline/
-!/ccstatusline/**
 !/uv/
 !/uv/uv.toml
 !/pip/

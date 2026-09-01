@@ -4,20 +4,15 @@
 !/scripts/**
 !/.config/
 !/.config/**
-!/.claude/
-!/.claude/settings.json
 
 !/.zshrc
 !/.zshenv
 !/.zimrc
-!/.tmux.conf
 
 !/README.md
 
 !/.gitignore
 !/.gitmodules
-
-!/.condarc
 
 !/.pi
 !/.pi/**
