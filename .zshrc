@@ -1,5 +1,8 @@
+if [[ -f "$HOME/.zshrc.local.pre" ]]; then
+  source "$HOME/.zshrc.local.pre"
+fi
+
 # new home directory
-export HOME="$ZDOTDIR"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -95,6 +98,7 @@ eval "$(direnv hook zsh)"
 # gh
 eval "$(gh completion --shell zsh)"
 
-if [[ -f "$HOME/.zshrc.local" ]]; then
-  source "$HOME/.zshrc.local"
+if [[ -f "$HOME/.zshrc.local.post" ]]; then
+  source "$HOME/.zshrc.local.post"
 fi
+
