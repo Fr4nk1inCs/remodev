@@ -19,5 +19,5 @@
   "sessionDir": "~/.local/state/pi/agent/sessions",
   "theme": "light",
   "tuiMode": "fullscreen",
-  "lastChangelogVersion": "0.84.4"
+  "lastChangelogVersion": "0.85.1"
 }
