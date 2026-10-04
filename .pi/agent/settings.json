@@ -12,12 +12,12 @@
     "npm:@hk_net/pi-usage-bars",
     "npm:@eko24ive/pi-ask",
     "npm:@narumitw/pi-btw",
-    "npm:@tintinweb/pi-subagents",
+    "npm:pi-herdr-subagents",
     "git:github.com/code-yeongyu/pi-openai-web-search",
     "git:github.com/Fr4nk1inCs/pi-kimi-web-tools"
   ],
   "sessionDir": "~/.local/state/pi/agent/sessions",
   "theme": "light",
   "tuiMode": "fullscreen",
-  "lastChangelogVersion": "0.85.1"
+  "lastChangelogVersion": "0.87.1"
 }
