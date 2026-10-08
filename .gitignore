@@ -16,3 +16,6 @@
 
 !/.pi
 !/.pi/**
+
+!/.agents
+!/.agents/**
