@@ -1,8 +1,8 @@
 {
-  "defaultModel": "k3-256k",
+  "defaultModel": "gpt-6-astra",
   "defaultProjectTrust": "always",
-  "defaultProvider": "kimi-coding",
-  "defaultThinkingLevel": "high",
+  "defaultProvider": "openai",
+  "defaultThinkingLevel": "medium",
   "editorPaddingX": 0,
   "markdown": {
     "codeBlockIndent": ""
@@ -13,11 +13,10 @@
     "npm:@eko24ive/pi-ask",
     "npm:@narumitw/pi-btw",
     "npm:pi-herdr-subagents",
-    "git:github.com/code-yeongyu/pi-openai-web-search",
     "git:github.com/Fr4nk1inCs/pi-kimi-web-tools"
   ],
   "sessionDir": "~/.local/state/pi/agent/sessions",
-  "theme": "light",
+  "theme": "system",
   "tuiMode": "fullscreen",
-  "lastChangelogVersion": "0.87.1"
+  "lastChangelogVersion": "1.0.2"
 }
