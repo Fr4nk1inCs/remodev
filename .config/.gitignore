@@ -4,5 +4,7 @@
 !/nvim/**
 !/herdr/
 !/herdr/**
+!/hunk/
+!/hunk/**
 !/mise/
 !/mise/**
