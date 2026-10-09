@@ -3,7 +3,6 @@ vim.g.maplocalleader = "\\"
 vim.g.markdown_recommended_style = 0
 
 vim.opt.autowrite = true
-vim.opt.colorcolumn = { "80", "120" }
 vim.opt.completeopt = "menu,menuone,noselect"
 vim.opt.conceallevel = 2
 vim.opt.confirm = true    -- Confirm to save before exiting modified buffer
