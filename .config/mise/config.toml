@@ -27,5 +27,6 @@ codex = "latest"
 "pipx:ruff" = "latest"
 "cargo:tree-sitter-cli" = "latest"
 "pipx:nvitop" = "latest"
+rust-analyzer = "latest"
 
 [settings]

@@ -6,6 +6,7 @@ vim.lsp.enable({
   "clangd",
   "yamlls",
   "jsonls",
+  "rust-analyzer",
 })
 
 local fzf_goto = function(command)
