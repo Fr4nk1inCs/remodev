@@ -22,3 +22,7 @@
 
 !/.codex
 !/.codex/config.toml
+
+!/.claude
+!/.claude/settings.json
+!/.claude/statusline.py

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "uv run ~/.claude/statusline.py"
+  },
+  "tui": "fullscreen",
+  "autoMemoryEnabled": false,
+  "theme": "auto"
+}
