@@ -8,17 +8,15 @@ from __future__ import annotations
 import subprocess
 import sys
 from dataclasses import dataclass
-from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
-from typing import Annotated, Literal
+from typing import Literal
 
 from pydantic import (
     UUID4,
     BaseModel,
     ConfigDict,
     Field,
-    TypeAdapter,
     ValidationError,
 )
 
@@ -286,45 +284,14 @@ class TokenUsage(IgnoreModel):
         return " ".join(parts)
 
 
-class ApiRequest(IgnoreModel):
-    type: Literal["api-request"]
-    id: UUID4
-    timestamp: datetime
-
-
 class Message(IgnoreModel):
     usage: TokenUsage
 
 
 class AssistantMessage(IgnoreModel):
     type: Literal["assistant"]
-    isSidechain: bool
     requestRef: UUID4
     message: Message
-    timestamp: datetime
-
-
-TranscriptEntry = Annotated[
-    AssistantMessage | ApiRequest,
-    Field(discriminator="type"),
-]
-
-TranscriptEntryAdapter: TypeAdapter[AssistantMessage | ApiRequest] = TypeAdapter(
-    TranscriptEntry
-)
-
-
-@dataclass(frozen=True)
-class MessageTps:
-    duration: float
-    output: int
-
-    @property
-    def tps(self) -> float:
-        return self.output / self.duration if self.duration > 0 else 0.0
-
-    def render(self) -> str:
-        return f"{self.tps:.1f}t/s"
 
 
 class TranscriptParser:
@@ -340,43 +307,23 @@ class TranscriptParser:
         with f:
             for line in f:
                 try:
-                    entry = TranscriptEntryAdapter.validate_json(line)
+                    entry = AssistantMessage.model_validate_json(line)
                     yield entry
                 except ValidationError:
                     continue
 
-    def parse(self) -> tuple[TokenUsage, MessageTps | None]:
+    def parse(self) -> TokenUsage:
         usage = TokenUsage()
-        req_timing: dict[UUID4, datetime] = {}
-        last_message: AssistantMessage | None = None
         seen: dict[UUID4, AssistantMessage] = {}
 
         for entry in self:
-            if isinstance(entry, ApiRequest):
-                req_timing[entry.id] = entry.timestamp
-                continue
-
             if (prev := seen.get(entry.requestRef)) is not None:
                 usage -= prev.message.usage
             usage += entry.message.usage
 
             seen[entry.requestRef] = entry
 
-            if not entry.isSidechain:
-                last_message = entry
-
-        if last_message is None:
-            return usage, None
-
-        requested = req_timing.get(last_message.requestRef)
-        if requested is None:
-            return usage, None
-
-        duration = (last_message.timestamp - requested).total_seconds()
-        output = last_message.message.usage.output
-        if duration <= 0 or output <= 0:
-            return usage, None
-        return usage, MessageTps(duration=duration, output=output)
+        return usage
 
 
 class SessionStats:
@@ -386,7 +333,7 @@ class SessionStats:
         window = data.context_window
         self.context_window_size = window.context_window_size if window else None
         self.context_used_percentage = window.used_percentage if window else None
-        self.usage, self.tps = TranscriptParser(data.transcript_path).parse()
+        self.usage = TranscriptParser(data.transcript_path).parse()
 
     def render(self) -> str:
         return DELIMITER.join(
@@ -395,7 +342,6 @@ class SessionStats:
                 self.render_model(),
                 self.render_context(),
                 Theme.DIM.paint(self.usage.render()) if self.usage else "",
-                Theme.DIM.paint(self.tps.render()) if self.tps is not None else "",
             )
             if part
         )
