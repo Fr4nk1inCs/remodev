@@ -1,4 +1,9 @@
 {
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
   "permissions": {
     "defaultMode": "auto"
   },
@@ -8,5 +13,6 @@
   },
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
-  "theme": "auto"
+  "theme": "auto",
+  "remoteControlAtStartup": false
 }
