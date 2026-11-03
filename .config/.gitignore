@@ -8,3 +8,17 @@
 !/hunk/**
 !/mise/
 !/mise/**
+!/zsh/
+!/zsh/**
+!/shell/
+!/shell/**
+!/claude/
+!/claude/**
+!/codex/
+!/codex/**
+!/pi/
+!/pi/**
+!/vim/
+!/vim/vimrc
+!/wget/
+!/wget/wgetrc

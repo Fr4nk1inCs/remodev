@@ -29,17 +29,30 @@ $ bash scripts/install.sh
 This installs `mise` and all the tools declared in `.config/mise/config.toml`,
 such as `neovim`, `fzf`, `eza`, `zoxide`, `starship`, `gh`, `pi` and so on.
 Add other tools to that file as needed and install them with `mise upgrade`.
+The script also installs Rex into `/usr/local/bin` without a system service.
 
 ## Usage
 
 This repo acts as a self-contained `$HOME`. To use it, explicitly point
 `$HOME` at the repo's root and start a login shell:
 ```console
-$ export HOME="/path/to/remodev" && cd && zsh -l
+$ export HOME="/path/to/remodev" && unset ZDOTDIR && cd && zsh -l
 ```
-The login shell then sources this repo's `.zshrc`, which sets up the XDG
-directories, tools and aliases.
+The shell loads the XDG environment from `.config/shell/environment.sh`, then
+sources `.config/zsh/.zshrc` for tools and aliases. Unsetting `ZDOTDIR` prevents
+an inherited path from selecting another home's configuration.
 
 For machine-specific tweaks, create `.zshrc.local.pre` and/or
-`.zshrc.local.post` in the repo root — they are sourced before and after the
+`.zshrc.local.post` in `.config/zsh/` — they are sourced before and after the
 main `.zshrc`, respectively.
+
+## Rex
+
+```sh
+scripts/rex.sh start
+scripts/rex.sh status
+scripts/rex.sh logs
+scripts/rex.sh stop --if-idle
+```
+
+Socket: `.local/state/rex/server.sock`.

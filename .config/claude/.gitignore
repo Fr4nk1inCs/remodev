@@ -1,4 +1,4 @@
-*
+/*
 !/.gitignore
 !/settings.json
-!/extensions/footer.ts
+!/statusline.py

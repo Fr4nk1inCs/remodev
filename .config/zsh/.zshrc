@@ -1,12 +1,8 @@
-if [[ -f "$HOME/.zshrc.local.pre" ]]; then
-  source "$HOME/.zshrc.local.pre"
-fi
+mkdir -p "$XDG_STATE_HOME"/{less,node,python,wget}
 
-# new home directory
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
+if [[ -f "$ZDOTDIR/.zshrc.local.pre" ]]; then
+  source "$ZDOTDIR/.zshrc.local.pre"
+fi
 
 # vi-mode
 bindkey -v
@@ -18,7 +14,7 @@ bindkey -M vicmd v edit-command-line
 HISTSIZE="50000"
 SAVEHIST="10000"
 
-HISTFILE="$HOME/.zsh_history"
+HISTFILE="$XDG_STATE_HOME/zsh/history"
 mkdir -p "$(dirname "$HISTFILE")"
 
 unsetopt APPEND_HISTORY
@@ -34,7 +30,9 @@ setopt EXTENDED_HISTORY
 setopt interactivecomments
 
 # zim
-ZIM_HOME="$HOME/.zim"
+ZIM_HOME="$XDG_DATA_HOME/zim"
+mkdir -p "$XDG_CACHE_HOME/zsh"
+zstyle ':zim:completion' dumpfile "$XDG_CACHE_HOME/zsh/zcompdump"
 
 if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
   if (( ${+commands[curl]} )); then
@@ -98,7 +96,7 @@ eval "$(direnv hook zsh)"
 # gh
 eval "$(gh completion --shell zsh)"
 
-if [[ -f "$HOME/.zshrc.local.post" ]]; then
-  source "$HOME/.zshrc.local.post"
+if [[ -f "$ZDOTDIR/.zshrc.local.post" ]]; then
+  source "$ZDOTDIR/.zshrc.local.post"
 fi
 
