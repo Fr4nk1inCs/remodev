@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Ege Chelebi
+Copyright (c) 2026 Dustin Yuchen Teng
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,10 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-ASD-STE100 is a registered EU trademark (No. 017966390) of ASD. This project
-is unofficial and not affiliated with ASD. The license above covers this
-project's own text and code. It does not cover the ASD-STE100 specification,
-which is available from https://asd-ste100.org under ASD's own terms.

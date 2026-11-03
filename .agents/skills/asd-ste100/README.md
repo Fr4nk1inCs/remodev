@@ -1,161 +1,113 @@
-# asd-ste100
+# ASD-STE100 Skill — Simplified Technical English for Agent Output
 
-[![skills.sh](https://skills.sh/b/woosal1337/blog)](https://www.skills.sh/woosal1337/blog/asd-ste100)
+A Claude Code skill that rewrites dense, ambiguous English into [ASD-STE100 Simplified Technical English](https://www.asd-ste100.org/) (STE) — the controlled-language standard the aerospace and defense industry built so aircraft maintenance instructions cannot be misread.
 
-Listed at [skills.sh/woosal1337/blog/asd-ste100](https://www.skills.sh/woosal1337/blog/asd-ste100).
+This skill repurposes that same discipline for a different reader: an **AI agent** parsing another agent's output, a tool description, an error message, or an inter-agent instruction, with no human in the loop to resolve ambiguity.
 
-An agent skill that removes AI slop with a writing system, not a banned-word
-list. Layer 1 rewrites the words into ASD-STE100 Simplified Technical English,
-the controlled language built in the 1980s so an aircraft mechanic could never
-misread a repair manual. Layer 2 shapes the reply for a reader with ADHD: the
-next action first, numbered steps, real time estimates, no preamble and no
-closer.
+## Why STE, and Why for Agents
 
-The claim behind it was tested: six engineering writing tasks, four
-conditions, two model families, scored as violations per 100 words.
+STE exists because a misread instruction on an aircraft can kill people, and the intended readers were often not native English speakers with no author to call for clarification. The standard's fix: one meaning per word, active voice, simple tenses, one instruction per sentence, short sentences, no dropped words.
 
-| Condition | Claude sonnet | gpt-5.5 |
-|---|---|---|
-| baseline | 4.36 | 3.54 |
-| banned-words list | 4.21 (-3%) | 2.14 (-40%) |
-| Orwell's six rules | 2.48 (-43%) | 1.69 (-52%) |
-| **this skill** | **1.12 (-74%)** | **1.76 (-50%)** |
+An LLM agent parsing another agent's output is in a strikingly similar position — no back-channel, no way to ask "did you mean X or Y?" The same rules that keep a mechanic from misreading a torque spec keep a downstream agent from misreading a tool description or an inter-agent message.
 
-The full experiment, the data, and the 17-minute episode:
-[chele.bi/videos/the-cure-for-ai-slop](https://chele.bi/videos/the-cure-for-ai-slop)
+## Before / After
 
-## Install
+| Before | After |
+|---|---|
+| "This tool will attempt to synchronize state across the various backends that have been configured, and if a conflict is detected it may resolve it automatically depending on the strategy that has been set, or otherwise it will surface the conflict for manual review." | "The tool tries to synchronize state across the configured backends. If it finds a conflict, it reads the configured strategy. If the strategy allows automatic resolution, the tool may resolve the conflict without a user. If the tool does not resolve the conflict, it reports the conflict for manual review." |
+| "An error may have occurred while processing your request due to a possible mismatch in the expected data format, which could be caused by an outdated client version." | "Your request may have failed. The cause may be a data format that does not match what the server expects. An outdated client can cause this mismatch. Check your client version." |
 
-Pick one route. Do not stack them - two routes double the hooks.
+More examples, including illustrations of the official STE rules themselves, in [`examples/before-after.md`](examples/before-after.md).
 
-**Claude Code, as a plugin.** This folder is a standard plugin: the skill at
-the root, the hooks declared in `hooks/hooks.json`. They self-register on
-install, no settings edit:
+## What This Skill Does
 
-```
-/plugin marketplace add woosal1337/blog
-/plugin install asd-ste100@chele-bi
-```
+1. Picks a mode. **Strict** covers procedures, error messages, and tool descriptions. **STE-flavored** covers READMEs, PR descriptions, and explanatory prose. STE-flavored keeps the sentence discipline but not the fixed-vocabulary lockdown.
+2. Reads the input English text for meaning.
+3. Flags every rule violation sentence-by-sentence: ambiguous word choice, present-perfect/complex tense, passive voice with an unclear actor, multi-instruction sentences, oversized noun clusters, dropped words, sentences over length, phrasal verbs, nominalized actions, semicolons, hedge stacks, and marketing adjectives.
+4. Rewrites each flagged sentence — without dropping any fact, condition, or scope qualifier from the original. If a shorter phrasing would lose required precision, it keeps the longer phrasing and flags the trade-off instead of silently simplifying.
+5. Outputs the rewritten text on its own — no preamble, no mode announcement, no change summary — plus a one-line `Kept as-is:` note when it deliberately left something unsimplified.
 
-**Any agent the [skills CLI](https://skills.sh) supports.** This installs the
-skill files. On Claude Code, `install.py` then arms the hooks and the output
-style through settings:
+Ask for the reasoning ("show the diff", "which rules did it break") and it outputs a before/after table naming each rule instead.
 
-```
-bunx skills add woosal1337/blog
-node "$HOME/.claude/skills/asd-ste100/hooks/run-python.cjs" "$HOME/.claude/skills/asd-ste100/install.py"
-```
+The structural rules it checks are mechanical — you can point at the word or punctuation mark that breaks each one. The rules that depend on ASD's dictionary are flagged as advisory rather than enforced, and the rules that need taste are left to you.
 
-The registry page for that command is the listing above. It reads this repo
-directly, so the page and the folder never drift apart.
+The linter checks structural patterns only. It does not compare an original text with a rewrite, verify that requirement strength stayed the same, or prove that the rewrite preserved meaning. A zero-violation result means that the configured structural checks found no problems.
 
-**No tooling at all.** Paste `SKILL.md` into the system prompt. The skill
-works without the linter. The linter closes the loop.
+The deterministic linter checks semicolons, a short list of soft phrasal verbs (spin up, reach out, dive into, kick off, circle back, touch base), nominalizations, marketing adjectives, passive voice, present-perfect forms (including irregular participles such as "has run"), long sentences, synonym rotation, and dangling conjunctions in supported list items. It does not check noun-cluster length (that needs part-of-speech tagging) and it does not know phrasal verbs outside its list, so "take off the panel" passes. It never flags hedges or modality.
 
-## Layout
+For the sentence-length check, a word is a whitespace-separated token with at least one letter or digit. Inline code in single backticks, list markers, blockquote markers, and bare punctuation such as a spaced em dash are not words.
 
-The folder follows the [Agent Skills spec](https://agentskills.io) and the
-Claude Code plugin format at the same time:
+The repo's own prose does not lint clean: the rule tables quote the patterns they forbid, and some sentences run long. Lint it with `python scripts/ste-lint.py --baseline 36 SKILL.md` and read the findings as examples, not defects.
 
-```
-SKILL.md                     the skill - name, description, the two layers
-scripts/ste-lint.py          executable code, per the spec convention
-references/ste-recurring-errors.md   docs loaded on demand
-hooks/hooks.json             the plugin's hook declarations
-hooks/run-python.cjs         cross-platform Python 3 launcher
-hooks/ste-*.py               the four hook programs
-.claude-plugin/plugin.json   the plugin manifest
-install.py, output-style.md  the settings route, for non-plugin installs
+The dangling-conjunction rule checks list markers at the start of a line with zero to three leading spaces and ASCII spaces after the marker. It supports unordered markers `-`, `*`, and `+`, and ordered numeric markers that end in `.` or `)`, such as `1.` or `1)`. It checks indented continuation lines up to the final meaningful line. It does not parse list syntax inside blockquotes, lazy continuation, or full nested-list semantics. A standalone line with four or more leading spaces is not treated as a list marker. Within an active list item, indentation at the computed content column is treated as continuation text. Fence detection follows CommonMark for blockquotes and for the fence itself. A fence opens on three or more backticks or tildes, also inside a blockquote. It closes on a run of the same character that is at least as long and has only spaces or tabs after it. A fence in a blockquote closes when the quote ends. In an HTML block, a `>` line is text and opens no fence. An HTML block starts on a block tag such as `<div>`, or on one complete tag alone on its line that does not continue a paragraph. Inline HTML such as `<span>` in a line of text starts no HTML block. In the main pass, no fence opens in an HTML block, at any quote depth. An HTML block can also sit in a blockquote, and it ends when its quote ends. The dangling-conjunction pass does not track HTML blocks, so it still opens a fence there. The linter does not track list items. So it accepts a fence at any indent. It also accepts a closing fence up to three columns deeper than the opening fence, also at the top level. A fence in a list item does not close when the item ends. A fence that starts on the line of a list marker is not detected. Its closing line then opens a fence, and the linter skips the text after it.
+
+The intentionally invalid examples/linter-edge-cases.md file demonstrates incomplete Markdown list items. Run python scripts/ste-lint.py examples/linter-edge-cases.md to confirm that the linter reports the two expected findings. The file is a test fixture and should not be used as compliant STE prose.
+
+It does **not** reproduce ASD's official ~900-word approved dictionary. The standard is free to obtain but not free to redistribute: Issue 9 permits reproduction only with ASD's written authority, or by eight listed categories of organisation that this project does not belong to. This skill applies the underlying *principle* (plainest available word, used the same way every time) rather than checking against a fixed word list. For certified STE-compliant documentation, use the real standard.
+
+Full rule summary and citations: [`references/writing-rules.md`](references/writing-rules.md).
+
+## Installation
+
+### Quick Install (npx skills)
+
+The fastest way to install this skill is the [skills CLI](https://skills.sh/) — no clone, no path setup. Run it from your project root:
+
+```bash
+npx skills add danyuchn/asd-ste100-skill
 ```
 
-## What the enforcement stack adds
+This pulls the skill from the GitHub repo and installs it for the current project. The CLI sends anonymous install telemetry (skill name and timestamp, no personal or device information) to help rank skills on the skills.sh leaderboard. Set `DISABLE_TELEMETRY=1` to opt out.
 
-A skill is advisory. The model can forget it on a long turn. `install.py`
-therefore arms every deterministic layer Claude Code offers. It symlinks the
-skill and the output style, adds four hook entries to
-`~/.claude/settings.json`, and backs the old file up first. A second run
-repairs the install. `--uninstall` removes exactly what it added.
+Update later with `npx skills update`.
 
-The hook commands use `hooks/run-python.cjs`. On Windows, it first tries the
-Python launcher and `python`. On macOS and Linux, it first tries `python3`.
+### Clone
 
-| Layer | File | When it fires | What it guarantees |
-|---|---|---|---|
-| style | `output-style.md` | every request | the rule sits in the system prompt |
-| card | `hooks/ste-inject.py` | every user turn | the rule enters context, with the last score |
-| refresh | `hooks/ste-refresh.py` | every 12 tool calls | the rule stays near the reply on a long turn |
-| pre-send | `hooks/ste-pregate.py` | before a commit runs | a sloppy commit message never lands |
-| file check | `hooks/ste-refresh.py` | after a Write of an md file | a written doc gets its score in the same turn |
-| gate | `hooks/ste-gate.py` | when the reply ends | every finished reply is linted |
-
-The gate keeps three bands. A clean reply passes in silence. A reply over the
-target gets its score shown on the next turn. Only a reply over a hard
-ceiling forces one rewrite, one time per turn.
-
-## The linter
-
-```
-node hooks/run-python.cjs scripts/ste-lint.py draft.md            # flavored: general prose, target under 2.5
-node hooks/run-python.cjs scripts/ste-lint.py --strict draft.md   # strict: procedures and error messages
-node hooks/run-python.cjs scripts/ste-lint.py --shape draft.md    # add the Layer 2 reply-shape counts
+```bash
+git clone https://github.com/danyuchn/asd-ste100-skill ~/.claude/skills/asd-ste100
 ```
 
-The score is violations per 100 words. `--json` gives machine-readable
-output. `--fail-over N` exits 1 over the threshold, for CI gates and hooks.
-The linter uses only the Python 3 standard library. The launcher has no Node
-package dependencies.
+This clones the repo into `~/.claude/skills/`, making the skill available in every Claude Code project. Best for contributors and anyone who wants a live checkout that updates with `git pull`.
 
-Version 2.0.3 fixes Markdown input handling. Leading YAML front matter stays
-outside both scores. The linter joins wrapped prose within each block.
-Headings, list items, table rows, and blank lines keep their boundaries.
-Bold and italic markers do not hide sentence ends.
+## Usage
 
-Possessive nouns do not count as contractions. The apostrophe-s check counts
-common forms such as "it's", "she's", and "let's". It leaves ambiguous noun
-forms such as "John's" for human review.
+Trigger with a request to simplify or clarify English text:
 
-File errors go to standard error. The linter checks the remaining files and
-exits 1 after the batch. Unmatched file patterns also cause exit 1.
-JSON reports for readable files keep the same format.
-
-The rule sets remain `score_version: 2` and `shape_version: 1`.
-These fixes can change scores for the same document. Use the same Git revision
-of the linter for both sides of a comparison. The episode tables keep their
-historical measurements.
-
-## Tests
-
-From the repository root, run both suites:
-
-```sh
-python3 -m unittest discover -s videos/ep01-the-cure-for-ai-slop/asd-ste100/tests -p 'test_*.py' -v
-node --test videos/ep01-the-cure-for-ai-slop/asd-ste100/tests/run-python.test.cjs videos/ep01-the-cure-for-ai-slop/asd-ste100/tests/linter-e2e.test.cjs
+```
+Disambiguate this tool description
+Rewrite this error message so an agent can't misparse it
+Apply ASD-STE100 to this instruction
 ```
 
-The tests cover Markdown input, batch errors, score thresholds, and all four
-hooks through the Node launcher. CI runs both suites on Windows, macOS, and
-Linux. No test calls an agent service or writes to the real agent settings.
+Or paste text and ask Claude to "disambiguate this" / "apply STE100 to this" / "reduce ambiguity in this output."
+
+You get the rewritten text back and nothing else. To see which rules were applied, add "show the diff" or "explain the changes" to the request.
 
 ## Scope
 
-Layer 1 governs every word a human reads: docs, commit messages, PR text,
-comments, error messages. Layer 2 governs a reply to a person. Neither layer
-touches code, identifiers, or command syntax. Writing that needs a voice — a
-blog post, an essay, marketing copy — is out of scope on purpose. STE is
-deliberately flat.
+Built for: agent-to-agent messages, tool/function descriptions, error messages, system prompts, inter-agent instructions — any English text a machine or non-native reader has to parse without a human to ask.
 
-The hooks and the installer are Claude Code only. The skill file itself works
-with every agent the skills CLI supports.
+Not built for: creative writing, marketing copy, or anything where voice and nuance are the point — STE is deliberately flat and literal by design.
+
+One limit worth stating up front: this fixes the form of a text, not its substance. A paragraph with nothing to say comes out short, clean, and still empty.
+
+## Other Languages
+
+- **Hebrew:** [g4lb/asd-ste100-hebrew-skill](https://github.com/g4lb/asd-ste100-hebrew-skill) is a Hebrew port of this skill. It includes a Hebrew linter. ASD-STE100 defines English only, so the Hebrew rules are an adaptation, not an official standard.
+- **Indonesian:** [jshsinaga/asd-ste100-indonesian-skill](https://github.com/jshsinaga/asd-ste100-indonesian-skill) adapts this skill for Indonesian technical text. Its Indonesian rules are an adaptation, not an official ASD-STE100 standard.
+
+## Related Tools
+
+- [meiluosi/rewrite-fidelity-skill](https://github.com/meiluosi/rewrite-fidelity-skill) compares the original text with the rewrite. It flags changes in meaning and modality. It uses pattern matching, so check each flag yourself.
+
+## Sources
+
+- [ASD-STE100 official site](https://www.asd-ste100.org/)
+- [ASD-STE100 — About STE](https://www.asd-ste100.org/about_STE.html)
+- [ASD Europe — Simplified Technical English](https://www.asd-europe.org/standards-specifications/simplified-technical-english/)
+- [Simplified Technical English — Wikipedia](https://en.wikipedia.org/wiki/Simplified_Technical_English)
+- [TechScribe — ASD-STE100 Simplified Technical English](https://www.techscribe.co.uk/techw/asd-simplified-technical-english.htm)
 
 ## License
 
-MIT, see [LICENSE](LICENSE). This project is unofficial and not affiliated
-with ASD. ASD-STE100 is a registered EU trademark (No. 017966390). The
-specification is free from [asd-ste100.org](https://asd-ste100.org).
-
-## Provenance
-
-Built for the episode "The cure for AI slop is a 1986 aircraft manual". This
-folder lives in the blog repo at `videos/ep01-the-cure-for-ai-slop/asd-ste100/`
-and is the canonical source. The skills CLI installs it straight from there —
-no mirror, no second repo.
+MIT — see [LICENSE](LICENSE).

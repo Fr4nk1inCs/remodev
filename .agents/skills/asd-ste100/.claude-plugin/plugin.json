@@ -1,13 +1,7 @@
 {
-	"name": "asd-ste100",
-	"description": "ASD-STE100 words plus the ADHD reply shape, with a linter and four self-registering hooks. Removes AI slop with a writing system, not a banned-word list.",
-	"version": "2.0.3",
-	"author": {
-		"name": "Ege Chelebi",
-		"url": "https://chele.bi"
-	},
-	"homepage": "https://chele.bi/videos/the-cure-for-ai-slop",
-	"repository": "https://github.com/woosal1337/blog",
-	"license": "MIT",
-	"keywords": ["writing", "ste", "asd-ste100", "slop", "lint", "adhd"]
+  "name": "asd-ste100",
+  "description": "Rewrite ambiguous English into ASD-STE100 Simplified Technical English",
+  "author": { "name": "danyuchn" },
+  "repository": "https://github.com/danyuchn/asd-ste100-skill",
+  "license": "MIT"
 }
